@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import upvoteArrow from '../resources/images/upvote-arrow.png';
-import upvoteArrowClicked from '../resources/images/upvotes-arrow-clicked.png';
+import upvoteArrow from "../resources/images/upvote-arrow.png"
+import upvoteArrowClicked from "../resources/images/upvote-arrow-clicked.png";
 
 
 
