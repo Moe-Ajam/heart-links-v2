@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Header from "./Header";
-import Posts from "./Posts";
-import NewPostModal from "./NewPostModal";
+import Header from "../components/layout/Header";
+import Posts from "../components/features/Posts";
+import NewPostModal from "../components/features/NewPostModal";
 
 function Main() {
     const [posts, setPosts] = useState([

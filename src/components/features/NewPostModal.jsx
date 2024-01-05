@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import ButtonPrimary from "../common/button-primary";
+import ButtonSecondary from "../common/button-secondary";
 
 function NewPostModal({onCloseModal, onAddNewPost}) {
     const [formData, setFormData] = useState({
@@ -32,9 +34,8 @@ function NewPostModal({onCloseModal, onAddNewPost}) {
                     <textarea value={formData.content} onChange={handleChange} name="content"
                               className="border border-gray-300 h-24 rounded pl-2 resize-none"/>
                     <div className="flex self-end space-x-4 mt-4">
-                        <button onClick={onCloseModal} className="bg-white shadow-md rounded-s  w-16 h-6 text-mainOrange">Cancel</button>
-                        <button onClick={handleSubmit} className="bg-mainOrange shadow-md rounded-s w-16 h-6 text-white" type="submit">Submit
-                        </button>
+                        <ButtonSecondary onClick={onCloseModal} className="" text="Cancel"/>
+                        <ButtonPrimary onClick={handleSubmit} className="" text="Submit"/>
                     </div>
                 </form>
             </div>

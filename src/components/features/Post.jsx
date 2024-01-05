@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import upvoteArrow from "../resources/images/upvote-arrow.png"
-import upvoteArrowClicked from "../resources/images/upvote-arrow-clicked.png";
+import upvoteArrow from "../../assets/images/upvote-arrow.png"
+import upvoteArrowClicked from "../../assets/images/upvote-arrow-clicked.png";
 
 
 
@@ -16,7 +16,7 @@ function Post({upVotes, title, nbrComments, userName}) {
     return (
         <div className="flex mt-6">
             <div className="flex flex-col text-black text-opacity-40" onClick={onUpvoteToggle}>
-                <img src={isUpvote ? upvoteArrowClicked : upvoteArrow} alt="Upvote" className="w-7 h-7"/>
+                <img src={`${isUpvote ? upvoteArrowClicked : upvoteArrow}`} alt="Upvote" className="w-7 h-7"/>
                 <p className="text-sm">{upVoteNbr}</p>
             </div>
             <div className="flex flex-col bg-white w-45.3 drop-shadow-md ml-6">
