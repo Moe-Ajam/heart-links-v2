@@ -5,9 +5,9 @@ import NewPostModal from "../components/features/NewPostModal";
 
 function Main() {
     const [posts, setPosts] = useState([
-        {id: 1, upVotes: 123, title: "Some topic about Anxiety", nbrComments: 1, userName: "Moe"},
-        {id: 2, upVotes: 432, title: "Depression problem", nbrComments: 10, userName: "Anonymous"},
-        {id: 3, upVotes: 512, title: "?????", nbrComments: 113, userName: "Paiv"},
+        {id: 1, upVotes: 123, title: "Some topic about Anxiety", content: "Some content about anxiety", nbrComments: 1, userName: "Moe"},
+        {id: 2, upVotes: 432, title: "Depression problem", content: "test", nbrComments: 10, userName: "Anonymous"},
+        {id: 3, upVotes: 512, title: "?????", content: "test", nbrComments: 113, userName: "Paiv"},
     ]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +17,7 @@ function Main() {
             id: Date.now(),
             upVotes: 0,
             title: newPost.title,
+            content: newPost.content,
             nbrComments: 0,
             userName: 'Anonymous',
         }
