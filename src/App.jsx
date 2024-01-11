@@ -4,6 +4,7 @@ import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import Main from "./views/Main";
 import Login from "./views/Login";
 import PostViewer from "./views/PostViewer";
+import UserProfile from "./views/UserProfile"
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
               <Route exact path="/" element={<Login/>}/>
               <Route path="/home" element={<Main/>}/>
               <Route path="/post" element={<PostViewer/>}/>
+              <Route path="/user-profile" element={<UserProfile/>}/>
           </Routes>
       </Router>
 

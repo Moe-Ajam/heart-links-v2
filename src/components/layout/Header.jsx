@@ -1,5 +1,6 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
+import profilePic from '../../assets/images/profile_picture.jpg'
 
 function Header({onNewPostClick}) {
 
@@ -7,6 +8,10 @@ function Header({onNewPostClick}) {
 
     function navigateHome() {
         navigator("/home");
+    }
+
+    function navigateUserProfile() {
+        navigator("/user-profile")
     }
 
     return (
@@ -18,7 +23,11 @@ function Header({onNewPostClick}) {
                     <button className="header-btn">OCD</button>
                 </div>
                 <div className="flex-grow"></div>
-                <button onClick={onNewPostClick} className="header-btn mr-52 text-mainOrange font-bold">New Post</button>
+                <div className="flex space-x-7 mr-20">
+                    <button onClick={onNewPostClick} className="header-btn text-mainOrange font-bold">New Post
+                    </button>
+                    <img src={`${profilePic}`} className="profilePic cursor-pointer" alt="profile-pic" onClick={navigateUserProfile}/>
+                </div>
             </div>
     );
 }

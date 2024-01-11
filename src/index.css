@@ -27,8 +27,16 @@ p, button, h2, input, label {
 }
 
 .button-primary {
-  @apply bg-mainOrange shadow-md rounded-s w-20 h-8 text-white
+  @apply bg-mainOrange shadow-md rounded h-8 text-white px-3
 }
 .button-secondary {
-  @apply bg-white shadow-md rounded-s  w-20 h-8 text-mainOrange
+  @apply bg-white shadow-md rounded  px-3 h-8 text-mainOrange
+}
+
+input {
+  @apply border border-gray-300 rounded pl-2
+}
+
+.profilePic {
+  @apply h-12 w-12 rounded-full
 }
