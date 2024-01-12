@@ -9,8 +9,6 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const navigator = useNavigate();
-
     useEffect(() => {
         let timer;
         if (errorMessage) {
@@ -41,9 +39,6 @@ function Login() {
         return username === "Moe.Ajam" && password === "123";
     }
 
-    function navigateRegister() {
-        navigator("/registration")
-    }
 
     return (
         <div className="fixed inset-0 flex justify-center items-center bg-cover bg-center bg-no-repeat h-screen" style={{backgroundImage: `url(${backgroundImage})`}}>
@@ -55,7 +50,6 @@ function Login() {
                        onChange={handlePasswordChange}/>
                 {errorMessage && <p className="text-red-600">{errorMessage}</p>}
                 <ButtonPrimary text="Login" className="self-end" onClick={onSubmit}/>
-                <p>New to <span className="text-mainOrange">Heart</span>Link? <span className="text-mainOrange font-bold cursor-pointer" onClick={navigateRegister}>Register</span></p>
             </div>
         </div>
     );
