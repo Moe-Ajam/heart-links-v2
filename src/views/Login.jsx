@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import ButtonPrimary from "../components/common/button-primary";
 import backgroundImage from '../assets/images/login-bg.jpeg';
-import {useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import axios from "axios";
 
+// todo: unable to reach the api successfully
 function Login() {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -29,14 +31,19 @@ function Login() {
 
     function onSubmit(e) {
         e.preventDefault();
-        if (validateCredentials(username,  password)) {
-            navigate('/home');
-        } else {
-            setErrorMessage("Wrong username or password entered!");
-        }
-    }
-    function validateCredentials(username, password) {
-        return username === "Moe.Ajam" && password === "123";
+        axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {username, password})
+            .then(response => {
+                console.log(response);
+                navigate('/home');
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                if (error.response && error.response.status === 401) {
+                    setErrorMessage("Wrong username or password entered!");
+                } else {
+                    setErrorMessage("An error occurred. Please Try again later.");
+                }
+            })
     }
 
 
