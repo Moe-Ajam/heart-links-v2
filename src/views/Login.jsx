@@ -31,19 +31,22 @@ function Login() {
 
     function onSubmit(e) {
         e.preventDefault();
-        axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {username, password})
-            .then(response => {
-                console.log(response);
-                navigate('/home');
-            })
-            .catch(error => {
-                console.error('There was an error!', error);
-                if (error.response && error.response.status === 401) {
-                    setErrorMessage("Wrong username or password entered!");
-                } else {
-                    setErrorMessage("An error occurred. Please Try again later.");
-                }
-            })
+        navigate("/home");
+
+        // Todo: Uncomment this to allow access to the backend Login API
+        // axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {username, password})
+        //     .then(response => {
+        //         console.log(response);
+        //         navigate('/home');
+        //     })
+        //     .catch(error => {
+        //         console.error('There was an error!', error);
+        //         if (error.response && error.response.status === 401) {
+        //             setErrorMessage("Wrong username or password entered!");
+        //         } else {
+        //             setErrorMessage("An error occurred. Please Try again later.");
+        //         }
+        //     })
     }
 
 
