@@ -8,7 +8,7 @@ import axios from "axios";
 function Login() {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     useEffect(() => {
@@ -22,7 +22,7 @@ function Login() {
     }, [errorMessage]);
 
     function handleUsernameChange(e) {
-        setUsername(e.target.value);
+        setEmail(e.target.value);
     }
     function handlePasswordChange(e) {
         setPassword(e.target.value);
@@ -31,22 +31,24 @@ function Login() {
 
     function onSubmit(e) {
         e.preventDefault();
-        navigate("/home");
 
+        console.log("Submitting...")
         // Todo: Uncomment this to allow access to the backend Login API
-        // axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {username, password})
-        //     .then(response => {
-        //         console.log(response);
-        //         navigate('/home');
-        //     })
-        //     .catch(error => {
-        //         console.error('There was an error!', error);
-        //         if (error.response && error.response.status === 401) {
-        //             setErrorMessage("Wrong username or password entered!");
-        //         } else {
-        //             setErrorMessage("An error occurred. Please Try again later.");
-        //         }
-        //     })
+        axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {email, password})
+            .then(response => {
+                console.log(response);
+                if (response.status === 200) {
+                    navigate('/home');
+                }
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                if (error.response && error.response.status === 401) {
+                    setErrorMessage("Wrong username or password entered!");
+                } else {
+                    setErrorMessage("An error occurred. Please Try again later.");
+                }
+            })
     }
 
 
@@ -54,7 +56,7 @@ function Login() {
         <div className="fixed inset-0 flex justify-center items-center bg-cover bg-center bg-no-repeat h-screen" style={{backgroundImage: `url(${backgroundImage})`}}>
             <div className="flex flex-col bg-white w-152 shadow-lg p-14 rounded space-y-4">
                 <h1>Welcome To HeartLinks!</h1>
-                <input type="text" name="username" value={username} placeholder="Username" className="border border-gray-300 rounded pl-2"
+                <input type="text" name="username" value={email} placeholder="Username" className="border border-gray-300 rounded pl-2"
                        onChange={handleUsernameChange}/>
                 <input type="password" name="password" value={password} placeholder="Password" className="border border-gray-300 rounded pl-2"
                        onChange={handlePasswordChange}/>
