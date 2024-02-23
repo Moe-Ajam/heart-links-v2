@@ -1,6 +1,6 @@
 import './App.css';
 import React from "react";
-import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Main from "./views/Main";
 import Login from "./views/Login";
 import PostViewer from "./views/PostViewer";
@@ -8,19 +8,27 @@ import UserProfile from "./views/UserProfile"
 
 function App() {
 
+    const router = createBrowserRouter([
+        {
+            path: '/login',
+            element: <Login/>
+        },
+        {
+            path: '/home',
+            element: <Main/>
+        },
+        {
+            path: '/post',
+            element: <PostViewer/>
+        },
+        {
+            path: '/user-profile',
+            element: <UserProfile/>
+        }
+        ]
+    );
 
-  return (
-      <Router>
-          <Routes>
-              <Route exact path="/login" element={<Login/>}/>
-              <Route path="/home" element={<Main/>}/>
-              <Route path="/post" element={<PostViewer/>}/>
-              <Route path="/user-profile" element={<UserProfile/>}/>
-          </Routes>
-      </Router>
-
-
-  );
+    return <RouterProvider router={router}/>
 }
 
 export default App;
