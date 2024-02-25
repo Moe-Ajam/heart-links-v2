@@ -1,14 +1,10 @@
 import React from 'react';
-import {useNavigate, Link} from "react-router-dom";
+import {useNavigate, NavLink} from "react-router-dom";
 import profilePic from '../../assets/images/profile_picture.jpg'
 
 function Header({onNewPostClick}) {
 
     const navigator = useNavigate();
-
-    // function navigateHome() {
-    //     navigator("/home");
-    // }
 
     function navigateUserProfile() {
         navigator("/user-profile")
@@ -17,11 +13,11 @@ function Header({onNewPostClick}) {
     return (
         <div className="flex items-center h-16 bg-white drop-shadow-md">
             <div className="flex space-x-10 ml-40">
-                {/*<button className="header-btn font-bold" onClick={navigateHome}>All</button>*/}
-                <Link className="header-btn font-bold" to={'/home'}>All</Link>
-                <button className="header-btn">Depression</button>
-                <button className="header-btn">Anxiety</button>
-                <button className="header-btn">OCD</button>
+                <NavLink className={({isActive}) => isActive ? "header-btn underline font-bold" : "header-btn"} end
+                         to={'/home'}>All</NavLink>
+                <NavLink className="header-btn" to={'/home/depression'}>Depression</NavLink>
+                <NavLink className="header-btn" to={'/home/anxiety'}>Anxiety</NavLink>
+                <NavLink className="header-btn" to={'/home/ocd'}>OCD</NavLink>
             </div>
             <div className="flex-grow"></div>
             <div className="flex space-x-7 mr-20">

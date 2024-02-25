@@ -5,10 +5,15 @@ import Main from "./views/Main";
 import Login from "./views/Login";
 import PostViewer from "./views/PostViewer";
 import UserProfile from "./views/UserProfile"
+import ErrorPage from "./views/ErrorPage";
 
 function App() {
 
     const router = createBrowserRouter([
+        {
+          path: '/',
+          errorElement: <ErrorPage />
+        },
         {
             path: '/login',
             element: <Login/>

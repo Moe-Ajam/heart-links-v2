@@ -1,30 +1,37 @@
 import React, {useEffect, useState} from 'react';
 import Post from "./Post";
 import {useNavigate} from "react-router-dom";
-import {fetchPosts} from "../../apis/postService";
-
+import ErrorMessage from "../common/ErrorMessage";
+import {fetchAvailablePosts} from "../../apis/http";
 
 
 function Posts({posts}) {
+    const navigate = useNavigate();
+
     const [apiPosts, setApiPosts] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [, setIsLoading] = useState(false);
+    const [error, setError] = useState();
 
     useEffect(() => {
-        setIsLoading(true);
-        fetchPosts()
-            .then(response => {
-                setApiPosts(response.data);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching data: ', error);
-                setError(error);
-                setIsLoading(false);
-            })
+        async function fetchPosts() {
+            setIsLoading(true);
+            try {
+                const posts = await fetchAvailablePosts();
+                setApiPosts(posts);
+            } catch (e) {
+                setError({message: e.message || 'Could not fetch data, please try again later',});
+            }
+
+            setIsLoading(false);
+        }
+
+
+        fetchPosts().then();
     }, []);
 
-    const navigate = useNavigate();
+    if (error) {
+        return <ErrorMessage title="An error occured!" message={error.message}/>
+    }
 
     function openPostDetails(post) {
         navigate("/post", {state: {title: post.title, content: post.content}});
@@ -33,7 +40,9 @@ function Posts({posts}) {
 
     return (
         <div className="flex flex-col items-center">
-            {apiPosts.map(apiPost => <Post className="" key={apiPost.id} upVotes={apiPost.upvote} title={apiPost.title} nbrComments='1' userName={apiPost.userId} openPostDetails={() => openPostDetails(apiPost)}/>)}
+            {apiPosts.map(apiPost => <Post className="" key={apiPost.id} upVotes={apiPost.upvote} title={apiPost.title}
+                                           nbrComments='1' userName={apiPost.userId}
+                                           openPostDetails={() => openPostDetails(apiPost)}/>)}
         </div>
     );
 }
