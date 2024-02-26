@@ -3,8 +3,8 @@ import ButtonPrimary from "../components/common/button-primary";
 import backgroundImage from '../assets/images/login-bg.jpeg';
 import { useNavigate} from "react-router-dom";
 import axios from "axios";
+import ButtonSecondary from "../components/common/button-secondary";
 
-// todo: unable to reach the api successfully
 function Login() {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ function Login() {
         if (errorMessage) {
             timer = setTimeout(() => {
                 setErrorMessage('');
-            }, 5000);
+            }, 3000);
         }
         return () => clearTimeout(timer);
     }, [errorMessage]);
@@ -32,8 +32,7 @@ function Login() {
     function onSubmit(e) {
         e.preventDefault();
 
-        console.log("Submitting...")
-        // Todo: Uncomment this to allow access to the backend Login API
+        // todo: Refactor to use the new documented fetch request
         axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {email, password})
             .then(response => {
                 console.log(response);
@@ -51,17 +50,24 @@ function Login() {
             })
     }
 
+    function onRegister() {
+        navigate("/register");
+    }
+
 
     return (
         <div className="fixed inset-0 flex justify-center items-center bg-cover bg-center bg-no-repeat h-screen" style={{backgroundImage: `url(${backgroundImage})`}}>
             <div className="flex flex-col bg-white w-152 shadow-lg p-14 rounded space-y-4">
                 <h1>Welcome To HeartLinks!</h1>
-                <input type="text" name="username" value={email} placeholder="Username" className="border border-gray-300 rounded pl-2"
+                <input type="text" name="email" value={email} placeholder="Email" className="border border-gray-300 rounded pl-2"
                        onChange={handleUsernameChange}/>
                 <input type="password" name="password" value={password} placeholder="Password" className="border border-gray-300 rounded pl-2"
                        onChange={handlePasswordChange}/>
                 {errorMessage && <p className="text-red-600">{errorMessage}</p>}
-                <ButtonPrimary text="Login" className="self-end" onClick={onSubmit}/>
+                <div className="flex self-end space-x-4">
+                    <ButtonPrimary text="Login" onClick={onSubmit}/>
+                    <ButtonSecondary text="Register" onClick={onRegister}/>
+                </div>
             </div>
         </div>
     );

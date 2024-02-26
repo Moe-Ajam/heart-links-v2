@@ -5,12 +5,12 @@ import ErrorMessage from "../common/ErrorMessage";
 import {fetchAvailablePosts} from "../../apis/http";
 
 
-function Posts({posts}) {
+function Posts() {
     const navigate = useNavigate();
 
     const [apiPosts, setApiPosts] = useState([]);
     const [, setIsLoading] = useState(false);
-    const [error, setError] = useState();
+    const [error, setError] = useState({message: '', isError: false});
 
     useEffect(() => {
         async function fetchPosts() {
@@ -19,7 +19,7 @@ function Posts({posts}) {
                 const posts = await fetchAvailablePosts();
                 setApiPosts(posts);
             } catch (e) {
-                setError({message: e.message || 'Could not fetch data, please try again later',});
+                setError({message: e.message || 'Could not fetch data, please try again later',isError: true});
             }
 
             setIsLoading(false);
@@ -29,10 +29,9 @@ function Posts({posts}) {
         fetchPosts().then();
     }, []);
 
-    if (error) {
+    if (error.isError) {
         return <ErrorMessage title="An error occured!" message={error.message}/>
     }
-
     function openPostDetails(post) {
         navigate("/post", {state: {title: post.title, content: post.content}});
     }

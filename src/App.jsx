@@ -6,6 +6,7 @@ import Login from "./views/Login";
 import PostViewer from "./views/PostViewer";
 import UserProfile from "./views/UserProfile"
 import ErrorPage from "./views/ErrorPage";
+import RegisterView from "./views/RegisterView";
 
 function App() {
 
@@ -29,6 +30,10 @@ function App() {
         {
             path: '/user-profile',
             element: <UserProfile/>
+        },
+        {
+            path: '/register',
+            element: <RegisterView />
         }
         ]
     );
