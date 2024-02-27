@@ -38,7 +38,7 @@ function RegisterView(props) {
             navigator('/login');
         } catch (e) {
             setIsLoading(false);
-            setError({message: 'Something went wrong, please try again later :(', isError: true});
+            setError({message: 'Something went wrong, please try again later 😢', isError: true});
         }
     }
 
@@ -54,9 +54,9 @@ function RegisterView(props) {
                    className="border border-gray-300 rounded pl-2"
                    onChange={handlePasswordChange}/>
             {error.isError && <p className='text-red-600'>{error.message}</p>}
-            <button value="register" className='flex items-center button-primary self-end' onClick={onSubmit}>
-                {isLoading && <Spinner/>}
-                Register
+            <button value="register" className='flex items-center button-primary self-end' onClick={onSubmit} disabled={isLoading}>
+                {isLoading ? 'loading'  : 'Register'}
+                {isLoading && <Spinner />}
             </button>
             <div className="flex space-x-1 self-end">
                 <p>already registered?</p>

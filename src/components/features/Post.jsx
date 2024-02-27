@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import upvoteArrow from "../../assets/images/upvote-arrow.png"
-import upvoteArrowClicked from "../../assets/images/upvote-arrow-clicked.png";
+import {BsFillArrowUpSquareFill} from "react-icons/bs";
 
 
 
@@ -16,8 +15,8 @@ function Post({upVotes, title, nbrComments, userName, className="", openPostDeta
     return (
         <div className={`flex mt-6 ${className}`}>
             <div className="flex flex-col text-black text-opacity-40" >
-                <img src={`${isUpvote ? upvoteArrowClicked : upvoteArrow}`} alt="Upvote" className="w-7 h-7 cursor-pointer" onClick={onUpvoteToggle}/>
-                <p className="text-sm">{upVoteNbr}</p>
+                <BsFillArrowUpSquareFill size='27' color={isUpvote ? '#FF6B6B' : 'grey'} onClick={onUpvoteToggle} className="w-7 h-7 cursor-pointer select-none"/>
+                <p className="text-sm self-center cursor-pointer select-none">{upVoteNbr}</p>
             </div>
             <div className="flex flex-col bg-white w-45.3 drop-shadow-md ml-6 ">
                 <h2 className="self-start pt-7 pl-7 font-bold text-lg cursor-pointer"  onClick={openPostDetails}>{title}</h2>
