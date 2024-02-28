@@ -35,7 +35,7 @@ function RegisterView(props) {
             setIsLoading(true);
             await registerUser({email: email, password: password});
             setIsLoading(false);
-            navigator('/login');
+            navigator('/auth/login');
         } catch (e) {
             setIsLoading(false);
             setError({message: 'Something went wrong, please try again later 😢', isError: true});
@@ -60,7 +60,7 @@ function RegisterView(props) {
             </button>
             <div className="flex space-x-1 self-end">
                 <p>already registered?</p>
-                <Link to='/login' className="text-mainOrange">Login</Link>
+                <Link to='/auth/login' className="text-mainOrange">Login</Link>
             </div>
         </div>
     </div>);

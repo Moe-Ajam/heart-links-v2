@@ -7,7 +7,7 @@ import {fetchLogin} from "../apis/http";
 
 function Login() {
     const [errorMessage, setErrorMessage] = useState({message: '', isError: false});
-    const [isLoading, setIsLoading] = useState(false)
+    const [, setIsLoading] = useState(false)
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,7 +18,7 @@ function Login() {
         let timer;
         if (errorMessage) {
             timer = setTimeout(() => {
-                setErrorMessage('');
+                setErrorMessage({message: '', isError: false});
             }, 3000);
         }
         return () => clearTimeout(timer);
@@ -34,28 +34,27 @@ function Login() {
 
 
     async function onSubmit(e) {
-         try {
+        try {
             e.preventDefault();
 
             setIsLoading(true);
             const response = await fetchLogin({email: email, password: password});
             setIsLoading(false);
-            if (response.ok){
+            if (response.ok) {
                 navigator('/home');
-            } else if(response.status === 401) {
+            } else if (response.status === 401) {
                 setErrorMessage({message: 'Wrong email or password', isError: true})
             } else {
                 setErrorMessage({message: 'Something went wrong, please try again later 😢', isError: true})
             }
-        }
-        catch (e) {
+        } catch (e) {
             setIsLoading(false);
             setErrorMessage({message: 'Something went wrong, please try again later 😢', isError: true});
         }
     }
 
     function onRegister() {
-        navigate("/register");
+        navigate('/auth/register');
     }
 
 

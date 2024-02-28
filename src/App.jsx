@@ -11,30 +11,33 @@ import RegisterView from "./views/RegisterView";
 function App() {
 
     const router = createBrowserRouter([
-        {
-          path: '/',
-          errorElement: <ErrorPage />
-        },
-        {
-            path: '/login',
-            element: <Login/>
-        },
-        {
-            path: '/home',
-            element: <Main/>
-        },
-        {
-            path: '/post',
-            element: <PostViewer/>
-        },
-        {
-            path: '/user-profile',
-            element: <UserProfile/>
-        },
-        {
-            path: '/register',
-            element: <RegisterView />
-        }
+            {
+                path: '/',
+                errorElement: <ErrorPage/>,
+                children: [
+                    {
+                        path: '/auth/login',
+                        element: <Login/>
+                    },
+                    {
+                        path: '/home',
+                        element: <Main/>
+                    },
+                    {
+                        path: '/post',
+                        element: <PostViewer/>
+                    },
+                    {
+                        path: '/user-profile',
+                        element: <UserProfile/>
+                    },
+                    {
+                        path: '/auth/register',
+                        element: <RegisterView/>
+                    }
+                ]
+            },
+
         ]
     );
 

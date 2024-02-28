@@ -1,3 +1,5 @@
+import {json, redirect} from "react-router-dom";
+
 export async function fetchAvailablePosts() {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/posts`);
     const resData = await response.json();
@@ -8,23 +10,6 @@ export async function fetchAvailablePosts() {
 
     return resData;
 }
-
-/*export async function fetchLogin(user) {
-
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-            'Content-type': 'application/json'
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to login.');
-    }
-
-    return response;
-}*/
 
 export async function fetchLogin(user) {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
@@ -59,11 +44,15 @@ export async function registerUser(user) {
         }
     });
 
-    const resData = await response.json();
-
-    if (!response.ok) {
-        throw new Error('Failed to register User.');
+    if (response.status === 422 || response.status === 401) {
+        return response;
     }
 
-    return resData.message;
+    if (!response.ok) {
+        throw json({message: 'Could not authenticate user.', status: 500});
+    }
+
+    return redirect('/home');
 }
+
+export const LOGIN_API = `${process.env.REACT_APP_API_URL}/api/register`;
