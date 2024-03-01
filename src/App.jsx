@@ -7,6 +7,7 @@ import PostViewer from "./views/PostViewer";
 import UserProfile from "./views/UserProfile"
 import ErrorPage from "./views/ErrorPage";
 import RegisterView from "./views/RegisterView";
+import {loader as postsLoader} from "./components/features/Posts";
 
 function App() {
 
@@ -21,7 +22,8 @@ function App() {
                     },
                     {
                         path: '/home',
-                        element: <Main/>
+                        element: <Main/>,
+                        loader: postsLoader
                     },
                     {
                         path: '/post',

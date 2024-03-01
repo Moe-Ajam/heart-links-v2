@@ -1,33 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import Post from "./Post";
-import {useNavigate} from "react-router-dom";
+import {useLoaderData, useNavigate} from "react-router-dom";
 import ErrorMessage from "../common/ErrorMessage";
-import {fetchAvailablePosts} from "../../apis/http";
 
 
 function Posts() {
     const navigate = useNavigate();
 
     const [apiPosts, setApiPosts] = useState([]);
-    const [, setIsLoading] = useState(false);
-    const [error, setError] = useState({message: '', isError: false});
+    // const [, setIsLoading] = useState(false);
+    const [error] = useState({message: '', isError: false});
+    const posts = useLoaderData();
+
+
+
 
     useEffect(() => {
-        async function fetchPosts() {
-            setIsLoading(true);
-            try {
-                const posts = await fetchAvailablePosts();
-                setApiPosts(posts);
-            } catch (e) {
-                setError({message: e.message || 'Could not fetch data, please try again later',isError: true});
-            }
-
-            setIsLoading(false);
-        }
+        setApiPosts(posts);
+        console.log(posts);
+    }, [posts]);
 
 
-        fetchPosts().then();
-    }, []);
 
     if (error.isError) {
         return <ErrorMessage title="An error occured!" message={error.message}/>
@@ -47,3 +40,14 @@ function Posts() {
 }
 
 export default Posts;
+
+
+export async function loader() {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/posts`);
+    //console.log(response);
+    if (!response.ok) {
+        //...
+    } else {
+        return await response.json();
+    }
+}
