@@ -1,17 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import backgroundImage from "../assets/images/login-bg.jpeg";
-import {Link, useNavigate} from "react-router-dom";
-import {registerUser} from "../apis/http";
+import {Form, json, Link, redirect, useNavigation} from "react-router-dom";
 import Spinner from "../components/common/Spinner";
 
 function RegisterView(props) {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState({message: '', isError: false});
-    const [isLoading, setIsLoading] = useState(false);
+    //const [isLoading, setIsLoading] = useState(false);
 
-    const navigator = useNavigate();
+    const navigation = useNavigation();
 
+    //setIsLoading(navigation.state === 'submitting');
+
+    const isLoading = navigation.state === 'submitting';
     function handleUsernameChange(e) {
         setEmail(e.target.value);
     }
@@ -30,21 +32,9 @@ function RegisterView(props) {
         return () => clearTimeout(timer);
     }, [error]);
 
-    async function onSubmit() {
-        try {
-            setIsLoading(true);
-            await registerUser({email: email, password: password});
-            setIsLoading(false);
-            navigator('/auth/login');
-        } catch (e) {
-            setIsLoading(false);
-            setError({message: 'Something went wrong, please try again later 😢', isError: true});
-        }
-    }
-
     return (<div className="fixed inset-0 flex justify-center items-center bg-cover bg-center bg-no-repeat h-screen"
                  style={{backgroundImage: `url(${backgroundImage})`}}>
-        <div className="flex flex-col bg-white w-152 shadow-lg p-14 rounded space-y-4">
+        <Form method='post' className="flex flex-col bg-white w-152 shadow-lg p-14 rounded space-y-4">
             <h1>Welcome To HeartLinks!</h1>
             <h1>Please Enter Your Information Below:</h1>
             <input type="text" name="email" value={email} placeholder="Email"
@@ -54,16 +44,39 @@ function RegisterView(props) {
                    className="border border-gray-300 rounded pl-2"
                    onChange={handlePasswordChange}/>
             {error.isError && <p className='text-red-600'>{error.message}</p>}
-            <button value="register" className='flex items-center button-primary self-end' onClick={onSubmit} disabled={isLoading}>
-                {isLoading ? 'loading'  : 'Register'}
-                {isLoading && <Spinner />}
+            <button value="register" className="flex items-center button-primary self-end"
+                    disabled={isLoading}>
+                {isLoading ? 'loading' : 'Register'}
+                {isLoading && <Spinner/>}
             </button>
             <div className="flex space-x-1 self-end">
                 <p>already registered?</p>
-                <Link to='/auth/login' className="text-mainOrange">Login</Link>
+                <Link to='/auth/login' className={`text-mainOrange ${isLoading ? 'pointer-events-none' : ''}`}>Login</Link>
             </div>
-        </div>
+        </Form>
     </div>);
 }
 
 export default RegisterView;
+
+export async function action({request, params}) {
+    const data = await request.formData();
+
+    const registrationData = {
+        email: data.get('email'),
+        password: data.get('password'),
+    }
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(registrationData)
+    });
+
+    if (!response.ok) {
+        throw json({message: 'Could not register user.'}, {status: response.status});
+    }
+
+    return redirect('/auth/login');
+}

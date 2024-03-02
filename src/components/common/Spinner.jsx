@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Spinner(props) {
+function Spinner({color, size}) {
     return (
         <div className="flex justify-center items-center">
-            <div className="animate-spin rounded-full h-3 w-3 border-b-2 ml-2 border-white"></div>
+            <div className={`animate-spin rounded-full h-${size || '3'} w-${size || '3'} border-b-2 ml-2 border-${color || 'white'}`}></div>
         </div>
     );
 }

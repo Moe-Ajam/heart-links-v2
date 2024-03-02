@@ -2,11 +2,11 @@ import './App.css';
 import React from "react";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Main from "./views/Main";
-import Login from "./views/Login";
+import Login, {action as loginAction} from "./views/Login";
 import PostViewer from "./views/PostViewer";
 import UserProfile from "./views/UserProfile"
 import ErrorPage from "./views/ErrorPage";
-import RegisterView from "./views/RegisterView";
+import RegisterView, {action as registrationAction} from "./views/RegisterView";
 import {loader as postsLoader} from "./components/features/Posts";
 
 function App() {
@@ -18,7 +18,8 @@ function App() {
                 children: [
                     {
                         path: '/auth/login',
-                        element: <Login/>
+                        element: <Login/>,
+                        action: loginAction
                     },
                     {
                         path: '/home',
@@ -35,7 +36,8 @@ function App() {
                     },
                     {
                         path: '/auth/register',
-                        element: <RegisterView/>
+                        element: <RegisterView/>,
+                        action: registrationAction
                     }
                 ]
             },

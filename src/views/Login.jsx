@@ -1,18 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import ButtonPrimary from "../components/common/button-primary";
 import backgroundImage from '../assets/images/login-bg.jpeg';
-import {useNavigate} from "react-router-dom";
-import ButtonSecondary from "../components/common/button-secondary";
-import {fetchLogin} from "../apis/http";
+import {Form, json, redirect, useNavigate, useNavigation} from "react-router-dom";
+import Spinner from "../components/common/Spinner";
 
 function Login() {
     const [errorMessage, setErrorMessage] = useState({message: '', isError: false});
-    const [, setIsLoading] = useState(false)
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const navigator = useNavigate();
+    const navigation = useNavigation();
+    const isLoading = navigation.state === 'submitting';
 
     useEffect(() => {
         let timer;
@@ -33,35 +31,14 @@ function Login() {
     }
 
 
-    async function onSubmit(e) {
-        try {
-            e.preventDefault();
-
-            setIsLoading(true);
-            const response = await fetchLogin({email: email, password: password});
-            setIsLoading(false);
-            if (response.ok) {
-                navigator('/home');
-            } else if (response.status === 401) {
-                setErrorMessage({message: 'Wrong email or password', isError: true})
-            } else {
-                setErrorMessage({message: 'Something went wrong, please try again later 😢', isError: true})
-            }
-        } catch (e) {
-            setIsLoading(false);
-            setErrorMessage({message: 'Something went wrong, please try again later 😢', isError: true});
-        }
-    }
-
     function onRegister() {
         navigate('/auth/register');
     }
 
 
-    return (
-        <div className="fixed inset-0 flex justify-center items-center bg-cover bg-center bg-no-repeat h-screen"
-             style={{backgroundImage: `url(${backgroundImage})`}}>
-            <div className="flex flex-col bg-white w-152 shadow-lg p-14 rounded space-y-4">
+    return (<div className="fixed inset-0 flex justify-center items-center bg-cover bg-center bg-no-repeat h-screen"
+                 style={{backgroundImage: `url(${backgroundImage})`}}>
+            <Form className="flex flex-col bg-white w-152 shadow-lg p-14 rounded space-y-4">
                 <h1>Welcome To HeartLinks!</h1>
                 <input type="text" name="email" value={email} placeholder="Email"
                        className="border border-gray-300 rounded pl-2"
@@ -70,13 +47,43 @@ function Login() {
                        className="border border-gray-300 rounded pl-2"
                        onChange={handlePasswordChange}/>
                 {errorMessage.isError && <p className="text-red-600">{errorMessage.message}</p>}
+                {navigation.state === "loading" && <Spinner color='green'/>}
                 <div className="flex self-end space-x-4">
-                    <ButtonPrimary text="Login" onClick={onSubmit}/>
-                    <ButtonSecondary text="Register" onClick={onRegister}/>
+                    <button className={`flex items-center button-primary self-end ${isLoading ? 'bg-gray-500' : ''}`}
+                            disabled={isLoading || navigation.state === 'loading'}>
+                        {isLoading ? 'Loading' : 'Login'}
+                        {isLoading && <Spinner/>}
+                    </button>
+                    <button className="flex items-center button-secondary self-end" onClick={onRegister}
+                            disabled={isLoading || navigation.state === "loading"}>
+                        Register
+                    </button>
                 </div>
-            </div>
-        </div>
-    );
+            </Form>
+        </div>);
 }
 
 export default Login;
+
+
+// todo: the action is not being called on login button press.
+export async function action({request, params}) {
+
+    const loginData = {
+        email: request.email, password: request.password,
+    }
+
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
+        method: 'POST', headers: {
+            'Content-Type': 'application/json',
+        }, body: JSON.stringify(loginData)
+    });
+
+    if (response.status === 401) {
+        throw json({message: 'Wrong username or password.'}, {status: 401});
+    } else if (response.ok) {
+        return redirect('/home');
+    } else {
+        throw json({message: 'Could not Login, something went wrong.'}, {status: 500});
+    }
+}

@@ -1,10 +1,27 @@
 import React from 'react';
+import {useRouteError} from "react-router-dom";
+import Header from "../components/layout/Header";
 
-function ErrorPage(props) {
+function ErrorPage() {
+    const error = useRouteError();
+
+    let title = 'An error occurred!';
+    let message = 'Something went wrong!'
+
+    if (error.status === 500) {
+        message = error.data.message;
+    }
+
+    if (error.status === 404) {
+        title = 'Not found!';
+        message = 'Could not find resource or page.';
+    }
+
     return (
         <div>
-            <h1>An Error Occurred!</h1>
-            <p>Could not find this page.</p>
+            <Header/>
+            <h1>{title}</h1>
+            <p>{message}</p>
         </div>
     );
 }
