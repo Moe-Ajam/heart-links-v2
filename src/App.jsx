@@ -8,8 +8,20 @@ import UserProfile from "./views/UserProfile"
 import ErrorPage from "./views/ErrorPage";
 import RegisterView, {action as registrationAction} from "./views/RegisterView";
 import {loader as postsLoader} from "./components/features/Posts";
+import {OktaAuth} from '@okta/okta-auth-js';
+import {Security, LoginCallback} from '@okta/okta-react';
+import ProtectedRoute from "./components/features/ProtectedRoute";
+
+
+const oktaAuth = new OktaAuth({
+    issuer: 'https://0oafuocw86HHZyueY5d7/oauth2/default',
+    clientId: 'dev-91978975.okta.com',
+    redirectUri: 'http://localhost:3000/login/callback',
+    scopes: ['openid', 'profile', 'email']
+});
 
 function App() {
+
 
     const router = createBrowserRouter([
             {
@@ -22,17 +34,21 @@ function App() {
                         action: loginAction
                     },
                     {
+                        path: '/login/callback',
+                        element: <LoginCallback/>,
+                    },
+                    {
                         path: '/home',
-                        element: <Main/>,
+                        element: <ProtectedRoute><Main/></ProtectedRoute>,
                         loader: postsLoader
                     },
                     {
                         path: '/post',
-                        element: <PostViewer/>
+                        element: <ProtectedRoute><PostViewer/></ProtectedRoute>
                     },
                     {
                         path: '/user-profile',
-                        element: <UserProfile/>
+                        element: <ProtectedRoute><UserProfile/></ProtectedRoute>
                     },
                     {
                         path: '/auth/register',
@@ -45,7 +61,13 @@ function App() {
         ]
     );
 
-    return <RouterProvider router={router}/>
+    return (
+        <Security oktaAuth={oktaAuth} restoreOriginalUri={async (_oktaAuth, originalUri) => {
+            window.location.href = originalUri || window.location.origin;
+        }}>
+            <RouterProvider router={router}/>
+        </Security>
+    );
 }
 
 export default App;
