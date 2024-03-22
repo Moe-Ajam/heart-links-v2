@@ -8,17 +8,7 @@ import UserProfile from "./views/UserProfile"
 import ErrorPage from "./views/ErrorPage";
 import RegisterView, {action as registrationAction} from "./views/RegisterView";
 import {loader as postsLoader} from "./components/features/Posts";
-import {OktaAuth} from '@okta/okta-auth-js';
-import {Security, LoginCallback} from '@okta/okta-react';
-import ProtectedRoute from "./components/features/ProtectedRoute";
 
-
-const oktaAuth = new OktaAuth({
-    issuer: 'https://0oafuocw86HHZyueY5d7/oauth2/default',
-    clientId: 'dev-91978975.okta.com',
-    redirectUri: 'http://localhost:3000/login/callback',
-    scopes: ['openid', 'profile', 'email']
-});
 
 function App() {
 
@@ -34,21 +24,17 @@ function App() {
                         action: loginAction
                     },
                     {
-                        path: '/login/callback',
-                        element: <LoginCallback/>,
-                    },
-                    {
                         path: '/home',
-                        element: <ProtectedRoute><Main/></ProtectedRoute>,
+                        element: <Main/>,
                         loader: postsLoader
                     },
                     {
                         path: '/post',
-                        element: <ProtectedRoute><PostViewer/></ProtectedRoute>
+                        element: <PostViewer/>
                     },
                     {
                         path: '/user-profile',
-                        element: <ProtectedRoute><UserProfile/></ProtectedRoute>
+                        element: <UserProfile/>
                     },
                     {
                         path: '/auth/register',
@@ -62,11 +48,7 @@ function App() {
     );
 
     return (
-        <Security oktaAuth={oktaAuth} restoreOriginalUri={async (_oktaAuth, originalUri) => {
-            window.location.href = originalUri || window.location.origin;
-        }}>
             <RouterProvider router={router}/>
-        </Security>
     );
 }
 
