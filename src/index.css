@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Slab:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+.header-btn {
+  @apply text-lg font-slab
+}
+
+p, button, h2, input, label {
+  @apply font-sans
+}
+
+.button-primary {
+  @apply bg-mainOrange shadow-md rounded h-8 text-white px-3
+}
+.button-secondary {
+  @apply bg-white shadow-md rounded  px-3 h-8 text-mainOrange
+}
+
+input {
+  @apply border border-gray-300 rounded pl-2
+}
+
+.profilePic {
+  @apply h-12 w-12 rounded-full
+}
