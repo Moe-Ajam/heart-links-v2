@@ -8,6 +8,7 @@ import UserProfile from "./views/UserProfile"
 import ErrorPage from "./views/ErrorPage";
 import RegisterView, {action as registrationAction} from "./views/RegisterView";
 import {loader as postsLoader} from "./components/features/Posts";
+import CallBackPage from "./Auth/CallBackPage";
 
 
 function App() {
@@ -27,6 +28,10 @@ function App() {
                         path: '/home',
                         element: <Main/>,
                         loader: postsLoader
+                    },
+                    {
+                        path: '/callback',
+                        element: <CallBackPage/>,
                     },
                     {
                         path: '/post',

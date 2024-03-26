@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Post from "./Post";
-import {json, useLoaderData, useNavigate} from "react-router-dom";
+import { useLoaderData, useNavigate} from "react-router-dom";
 import ErrorMessage from "../common/ErrorMessage";
 
 

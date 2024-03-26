@@ -1,7 +1,8 @@
 import React from 'react';
 import {useNavigate, NavLink} from "react-router-dom";
 import profilePic from '../../assets/images/profile_picture.jpg'
-import authService from "../../Auth/AuthService";
+import {authorize} from '../../Auth/AuthService'
+import AuthConfig from "../../Auth/AuthConfig";
 
 function Header({onNewPostClick}) {
 
@@ -11,12 +12,8 @@ function Header({onNewPostClick}) {
         navigator("/user-profile")
     }
 
-    function handleLogout() {
-        authService.logout();
-    }
-
-    function handleLogin() {
-        authService.login();
+    const handleLogin = () => {
+        authorize(AuthConfig);
     }
 
     return (
@@ -31,7 +28,6 @@ function Header({onNewPostClick}) {
             <div className="flex-grow"></div>
             <div className="flex space-x-7 mr-20">
                 <button onClick={handleLogin}>Login</button>
-                <button onClick={handleLogout}>Logout</button>
                 <button onClick={onNewPostClick} className="header-btn text-mainOrange font-bold">New Post
                 </button>
                 <img src={`${profilePic}`} className="profilePic cursor-pointer" alt="profile-pic"
